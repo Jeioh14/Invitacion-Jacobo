@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Baby Shower Jacobo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --oliva:#7c8a5b;
+  --beige:#f6f1e7;
+  --cafe:#6b513e;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:'Baloo 2', cursive;
+  background:linear-gradient(#fff,var(--beige));
+  color:var(--cafe);
+  overflow-x:hidden;
+}
+
+/* ===== SOBRE ===== */
+#cover{
+  position:fixed;
+  inset:0;
+  background:radial-gradient(var(--beige),var(--oliva));
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+  transition:transform 2s ease-in-out;
+}
+#cover.open{transform:translateY(-120%)}
+#cover.hidden{display:none}
+
+.envelope{
+  width:320px;
+  max-width:85vw;
+  height:220px;
+  background:#e3d4bb;
+  border-radius:18px;
+  box-shadow:0 18px 30px rgba(0,0,0,.25);
+  cursor:pointer;
+  animation:pulse 2s infinite;
+  position:relative;
+  overflow:hidden;
+}
+
+@keyframes pulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.05)}
+}
+
+/* TAPA DEL SOBRE */
+.envelope::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  clip-path:polygon(0 0,100% 0,50% 60%);
+  background:#cfbb9c;
+  z-index:1;
+  pointer-events:none;
+  transform-origin: top center;
+  transition:transform 1.3s ease;
+}
+.envelope.open::before{
+  transform:rotateX(160deg);
+}
+
+/* IMAGEN DENTRO DEL SOBRE */
+.envelope img{
+  width:110px;
+  max-width:45%;
+  position:absolute;
+  top:55%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  z-index:2;
+  animation:imgPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes imgPulse{
+  0%,100%{transform:translate(-50%,-50%) scale(1)}
+  50%{transform:translate(-50%,-50%) scale(1.1)}
+}
+
+section{
+  padding:80px 18px;
+  text-align:center;
+}
+
+/* ===== TÍTULOS ===== */
+.title{
+  font-family:'Pacifico', cursive;
+  font-size:2.8rem;
+  color:var(--oliva);
+}
+
+.story{
+  font-size:1.4rem;
+  max-width:760px;
+  margin:20px auto;
+  line-height:1.6;
+}
+
+/* ===== OSITOS GRANDES ===== */
+.bg-bear{
+  position:absolute;
+  width:240px;
+  max-width:50vw;
+  opacity:.95;
+  animation:floatBear 6s ease-in-out infinite;
+  z-index:-1;
+}
+
+.bg-bear.left{left:-40px;top:60px}
+.bg-bear.right{right:-40px;bottom:60px}
+
+@keyframes floatBear{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-22px)}
+}
+
+/* ===== FINAL ===== */
+.final{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+.wave{
+  width:240px;
+  max-width:60vw;
+  animation:wave 2s infinite;
+}
+
+@keyframes wave{
+  0%,100%{transform:rotate(0)}
+  50%{transform:rotate(8deg)}
+}
+</style>
+</head>
+
+<body>
+
+<!-- AUDIO -->
+<audio id="music" loop>
+  <source src="Cambio de piel.mp3" type="audio/mpeg">
+</audio>
+
+<!-- SOBRE -->
+<div id="cover">
+  <div class="envelope" id="openEnvelope">
+    <img src="sobre-img.png" alt="Imagen del sobre">
+  </div>
+  <p style="margin-top:20px">🧸 Toca para abrir 🧸</p>
+</div>
+
+<!-- CONTENIDO -->
+<section id="invite">
+  <img src="oso1.jpg" class="bg-bear left">
+  <img src="oso2.jpg" class="bg-bear right">
+
+  <h1 class="title">Baby Shower Jacobo</h1>
+
+  <p class="story">
+    “Mis papás todavía no saben de ser papás,<br>
+    pero sí son expertos en fiestas y celebraciones,<br>
+    así que por favor no faltes a mi Baby Shower 🧸”
+  </p>
+</section>
+
+<!-- FINAL -->
+<section class="final">
+  <h1 class="title">¡Te esperamos!</h1>
+  <img src="oso_salu.jpg" class="wave">
+</section>
+
+<script>
+// ABRIR SOBRE
+const envelope = document.getElementById("openEnvelope");
+const cover = document.getElementById("cover");
+
+envelope.addEventListener("click", () => {
+  envelope.classList.add("open");  // anima la tapa
+  cover.classList.add("open");     // sube el cover
+
+  setTimeout(() => {
+    cover.classList.add("hidden"); // elimina cover
+  }, 2000);
+
+  const audio=document.getElementById("music");
+  audio.currentTime=0;
+  audio.volume=0.8;
+  audio.play().catch(()=>{});
+});
+</script>
+
+</body>
+</html>
